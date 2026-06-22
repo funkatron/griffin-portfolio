@@ -1,0 +1,76 @@
+---
+import { getCollection, render } from 'astro:content';
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import HeroStill from '../../components/editorial/HeroStill.astro';
+import OptimizedImage from '../../components/media/OptimizedImage.astro';
+import ProcessStrip from '../../components/editorial/ProcessStrip.astro';
+import ClickToPlayVideo from '../../components/media/ClickToPlayVideo.astro';
+import { getPiecesBySeries, getSeriesNeighbors } from '../../utils/pieces';
+
+export async function getStaticPaths() {
+	const pieces = await getCollection('pieces');
+	return pieces.map((piece) => ({
+		params: { slug: piece.id },
+		props: { piece },
+	}));
+}
+
+const { piece } = Astro.props;
+const { Content } = await render(piece);
+const {
+	title,
+	hero,
+	alt,
+	year,
+	series,
+	tools,
+	description,
+	gallery = [],
+	process = [],
+	video,
+} = piece.data;
+
+const seriesPieces = await getPiecesBySeries(series);
+const { prev, next } = getSeriesNeighbors(seriesPieces, piece.id);
+---
+
+<ProjectLayout piece={piece} prev={prev} next={next}>
+	<HeroStill
+		src={hero}
+		alt={alt}
+		title={title}
+		year={year}
+		series={series}
+		tools={tools}
+		description={description}
+		showCredits={true}
+		priority={true}
+	/>
+
+	{
+		gallery.length > 0 && (
+			<div class="broken-gallery">
+				{gallery.map((src, index) => (
+					<div class="gallery-item">
+						<OptimizedImage src={src} alt={`${alt} — view ${index + 1}`} variant="thumb" />
+					</div>
+				))}
+			</div>
+		)
+	}
+
+	{process.length > 0 && <ProcessStrip images={process} alt={alt} />}
+
+	{video && <ClickToPlayVideo src={video.src} poster={video.poster} alt={alt} />}
+
+	<div class="project-body">
+		<Content />
+	</div>
+</ProjectLayout>
+
+<style>
+	.project-body {
+		margin-top: var(--space-lg);
+		max-width: 52ch;
+	}
+</style>

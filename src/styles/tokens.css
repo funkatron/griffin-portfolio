@@ -1,0 +1,61 @@
+/* Kanagawa Dragon — palette from rebelot/kanagawa.nvim */
+:root {
+	--dragon-black-0: #0d0c0c;
+	--dragon-black-1: #12120f;
+	--dragon-black-2: #1d1c19;
+	--dragon-black-3: #181616;
+	--dragon-black-4: #282727;
+	--dragon-black-5: #393836;
+	--dragon-black-6: #625e5a;
+
+	--dragon-white: #c5c9c5;
+	--dragon-gray: #a6a69c;
+	--dragon-gray-2: #9e9b93;
+	--dragon-gray-3: #7a8382;
+
+	--dragon-red: #c4746e;
+	--dragon-orange: #b6927b;
+	--dragon-yellow: #c4b28a;
+	--dragon-green: #87a987;
+	--dragon-aqua: #8ea4a2;
+	--dragon-teal: #949fb5;
+	--dragon-blue: #8ba4b0;
+	--dragon-violet: #8992a7;
+
+	--color-bg: var(--dragon-black-1);
+	--color-bg-elevated: var(--dragon-black-2);
+	--color-bg-surface: var(--dragon-black-3);
+	--color-fg: var(--dragon-white);
+	--color-muted: var(--dragon-gray-2);
+	--color-rule: var(--dragon-black-5);
+	--color-accent: var(--dragon-red);
+	--color-accent-soft: var(--dragon-aqua);
+	--color-accent-warm: var(--dragon-yellow);
+	--color-overlay: rgba(13, 12, 12, 0.88);
+
+	--font-display: 'Cormorant Garamond', 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+	--font-body: 'Noto Sans JP', 'Segoe UI', system-ui, sans-serif;
+
+	--text-display: clamp(4rem, 12vw, 14rem);
+	--text-title: clamp(2rem, 5vw, 4.5rem);
+	--text-label: 0.6875rem;
+	--text-body: 1rem;
+
+	--space-xs: 0.5rem;
+	--space-sm: 1rem;
+	--space-md: 2rem;
+	--space-lg: 4rem;
+	--space-xl: 8rem;
+
+	--nav-height: 3.5rem;
+	--transition-fast: 300ms;
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+	color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--transition-fast: 0ms;
+	}
+}

@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	piece: CollectionEntry<'pieces'>;
+	prev: CollectionEntry<'pieces'> | null;
+	next: CollectionEntry<'pieces'> | null;
+}
+
+const { piece, prev, next } = Astro.props;
+const { title, description, hero, alt, year, series, tools } = piece.data;
+
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'CreativeWork',
+	name: title,
+	description: description ?? alt,
+	dateCreated: String(year),
+	image: hero,
+	creator: {
+		'@type': 'Person',
+		name: 'Griffin',
+	},
+};
+---
+
+<BaseLayout title={title} description={description ?? alt} ogImage={hero}>
+	<article class="project" data-project-slug={piece.id} data-project-series={series}>
+		<slot />
+
+		<nav class="project-nav" aria-label="Series navigation">
+			{
+				prev ? (
+					<a href={`/work/${prev.id}`} data-nav="prev">
+						← {prev.data.title}
+					</a>
+				) : (
+					<span class="is-disabled" data-nav="prev">
+						← Previous
+					</span>
+				)
+			}
+			{
+				next ? (
+					<a href={`/work/${next.id}`} data-nav="next">
+						{next.data.title} →
+					</a>
+				) : (
+					<span class="is-disabled" data-nav="next">
+						Next →
+					</span>
+				)
+			}
+		</nav>
+	</article>
+
+	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+	<script define:vars={{ prevSlug: prev?.id ?? null, nextSlug: next?.id ?? null }}>
+		document.addEventListener('keydown', (event) => {
+			if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+				return;
+			}
+
+			if (event.key === 'ArrowLeft' && prevSlug) {
+				window.location.href = `/work/${prevSlug}`;
+			}
+
+			if (event.key === 'ArrowRight' && nextSlug) {
+				window.location.href = `/work/${nextSlug}`;
+			}
+		});
+	</script>
+</BaseLayout>

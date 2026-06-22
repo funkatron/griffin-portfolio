@@ -1,0 +1,137 @@
+---
+const links = [
+	{ href: '/work', label: 'Work' },
+	{ href: '/astronaut-dreams', label: 'Astronaut Dreams' },
+	{ href: '/about', label: 'About' },
+	{ href: '/contact', label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-nav" data-site-nav aria-label="Primary">
+	<div class="site-nav__inner">
+		<a href="/" class="site-nav__brand">Griffin</a>
+		<nav class="site-nav__links">
+			{
+				links.map((link) => (
+					<a
+						href={link.href}
+						class:list={{ 'is-active': currentPath === link.href || currentPath.startsWith(`${link.href}/`) }}
+					>
+						{link.label}
+					</a>
+				))
+			}
+		</nav>
+	</div>
+</header>
+
+<script>
+	const nav = document.querySelector('[data-site-nav]');
+	if (!nav) throw new Error('Nav root missing');
+
+	let visible = false;
+
+	const show = () => {
+		if (visible) return;
+		visible = true;
+		nav.classList.add('is-visible');
+	};
+
+	const hide = () => {
+		if (!visible) return;
+		visible = false;
+		nav.classList.remove('is-visible');
+	};
+
+	window.addEventListener(
+		'scroll',
+		() => {
+			if (window.scrollY > 80) show();
+			else hide();
+		},
+		{ passive: true },
+	);
+
+	window.addEventListener('mousemove', (event) => {
+		if (event.clientY < 72) show();
+	});
+</script>
+
+<style>
+	.site-nav {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 100;
+		transform: translateY(-100%);
+		transition: transform var(--transition-fast) var(--ease-out);
+		background: color-mix(in srgb, var(--dragon-black-2) 94%, transparent);
+		border-bottom: 1px solid transparent;
+		backdrop-filter: blur(10px);
+	}
+
+	.site-nav.is-visible {
+		transform: translateY(0);
+		border-bottom-color: var(--dragon-black-5);
+		box-shadow: 0 8px 32px rgba(13, 12, 12, 0.45);
+	}
+
+	.site-nav__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: var(--nav-height);
+		padding: 0 var(--space-md);
+	}
+
+	.site-nav__brand {
+		font-family: var(--font-display);
+		font-size: 0.875rem;
+		font-weight: 700;
+		letter-spacing: 0.28em;
+		text-transform: uppercase;
+		text-decoration: none;
+	}
+
+	.site-nav__links {
+		display: flex;
+		gap: var(--space-md);
+	}
+
+	.site-nav__links a {
+		font-size: var(--text-label);
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		text-decoration: none;
+	}
+
+	.site-nav__links a:hover {
+		color: var(--color-accent-soft);
+	}
+
+	.site-nav__links a.is-active {
+		font-weight: 700;
+		color: var(--color-accent-warm);
+		text-decoration: underline;
+		text-decoration-color: var(--color-accent);
+	}
+
+	@media (max-width: 640px) {
+		.site-nav__inner {
+			padding: 0 var(--space-sm);
+		}
+
+		.site-nav__links {
+			gap: var(--space-sm);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.site-nav {
+			transition: none;
+		}
+	}
+</style>

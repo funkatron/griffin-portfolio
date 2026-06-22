@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import OptimizedImage from '../components/media/OptimizedImage.astro';
+
+const splashSrc = '/images/splash.jpg';
+const splashAlt =
+	'Generative Growth — translucent crystalline floral forms in pink, white, and violet against a dark field';
+---
+
+<BaseLayout
+	title="Griffin"
+	description="3D rendered artworks — editorial portfolio"
+	ogImage={splashSrc}
+	fullBleed={true}
+	hideNav={false}
+>
+	<section class="hero-full">
+		<a href="/" class="site-mark">Griffin</a>
+		<OptimizedImage
+			src={splashSrc}
+			alt={splashAlt}
+			variant="full"
+			loading="eager"
+			objectPosition="42% 58%"
+		/>
+		<div class="home-links">
+			<a href="/astronaut-dreams">Astronaut Dreams</a>
+			<a href="/work">All Work</a>
+		</div>
+	</section>
+</BaseLayout>

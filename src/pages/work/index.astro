@@ -1,0 +1,79 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import AsymmetricGrid from '../../components/editorial/AsymmetricGrid.astro';
+import { filterPieces, getFeaturedPieces, getUniqueYears } from '../../utils/pieces';
+
+const featuredPieces = await getFeaturedPieces();
+const years = getUniqueYears(featuredPieces);
+
+const seriesParam = Astro.url.searchParams.get('series');
+const yearParam = Astro.url.searchParams.get('year');
+
+const filtered = filterPieces(featuredPieces, {
+	series: seriesParam,
+	year: yearParam,
+});
+
+const seriesOptions = [
+	{ value: 'all', label: 'All series' },
+	{ value: 'astronaut-dreams', label: 'Astronaut Dreams' },
+	{ value: 'other', label: 'Other' },
+];
+---
+
+<PageLayout title="Work" description="Selected 3D renders by Griffin">
+	<header class="work-header">
+		<h1 class="display-title">Work</h1>
+		<p class="meta-label">{featuredPieces.length} selected works</p>
+	</header>
+
+	<div class="filter-bar" aria-label="Filters">
+		<span class="meta-label">Series</span>
+		{
+			seriesOptions.map((option) => {
+				const params = new URLSearchParams(Astro.url.searchParams);
+				if (option.value === 'all') params.delete('series');
+				else params.set('series', option.value);
+				const href = params.toString() ? `/work?${params}` : '/work';
+				const active = (seriesParam ?? 'all') === option.value;
+				return (
+					<a href={href} class:list={{ 'is-active': active }}>
+						{option.label}
+					</a>
+				);
+			})
+		}
+
+		<span class="meta-label filter-gap">Year</span>
+		<a
+			href={`/work${seriesParam ? `?series=${seriesParam}` : ''}`}
+			class:list={{ 'is-active': !yearParam || yearParam === 'all' }}
+		>
+			All years
+		</a>
+		{
+			years.map((year) => {
+				const params = new URLSearchParams(Astro.url.searchParams);
+				params.set('year', String(year));
+				const href = `/work?${params}`;
+				return (
+					<a href={href} class:list={{ 'is-active': yearParam === String(year) }}>
+						{year}
+					</a>
+				);
+			})
+		}
+	</div>
+
+	{filtered.length > 0 ? <AsymmetricGrid pieces={filtered} /> : <p class="empty-state">No works match these filters.</p>}
+</PageLayout>
+
+<style>
+	.work-header {
+		margin-bottom: var(--space-lg);
+	}
+
+	.filter-gap {
+		margin-left: var(--space-md);
+	}
+</style>

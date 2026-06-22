@@ -1,0 +1,97 @@
+---
+import { getEntry } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import TitlePlate from '../components/editorial/TitlePlate.astro';
+import OptimizedImage from '../components/media/OptimizedImage.astro';
+import ProcessStrip from '../components/editorial/ProcessStrip.astro';
+import { getPieceBySlug } from '../utils/pieces';
+
+const seriesEntry = await getEntry('series', 'astronaut-dreams');
+if (!seriesEntry) throw new Error('Series astronaut-dreams not found');
+
+const { statement, colophon, pieceSlugs, ogImage, yearStart, yearEnd, processPieceSlug } =
+	seriesEntry.data;
+
+const pieces = [];
+for (const slug of pieceSlugs) {
+	const piece = await getPieceBySlug(slug);
+	if (!piece) throw new Error(`Missing piece for slug: ${slug}`);
+	pieces.push(piece);
+}
+
+const processPiece = await getPieceBySlug(processPieceSlug);
+const processImages = processPiece?.data.process ?? [];
+---
+
+<PageLayout
+	title="Astronaut Dreams"
+	description={statement}
+	ogImage={ogImage}
+>
+	<TitlePlate lines={['Astronaut', 'Dreams']} meta={`${yearStart} — 01—12`} />
+
+	<p class="series-statement">{statement}</p>
+
+	<section class="series-sequence" aria-label="Exhibition sequence">
+		{
+			pieces.map((piece, index) => (
+				<article class="series-sequence-item">
+					<p class="sequence-index meta-label rotated-label">
+						{String(index + 1).padStart(2, '0')}/12
+					</p>
+					<a href={`/work/${piece.id}`} class="sequence-media">
+						<OptimizedImage
+							src={piece.data.hero}
+							alt={piece.data.alt}
+							variant="hero"
+							loading={index < 2 ? 'eager' : 'lazy'}
+						/>
+						<span class="sequence-title section-title">{piece.data.title}</span>
+					</a>
+				</article>
+			))
+		}
+	</section>
+
+	{
+		processImages.length > 0 && processPiece && (
+			<ProcessStrip images={processImages} alt={processPiece.data.alt} />
+		)
+	}
+
+	<footer class="colophon">
+		<p class="meta-label">Colophon</p>
+		<p>{colophon}</p>
+	</footer>
+</PageLayout>
+
+<style>
+	.series-statement {
+		max-width: 52ch;
+		font-size: 1.125rem;
+		line-height: 1.6;
+		margin: 0 0 var(--space-xl);
+	}
+
+	.sequence-media {
+		display: block;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.sequence-title {
+		display: block;
+		margin-top: var(--space-sm);
+		font-size: clamp(1.5rem, 4vw, 3rem);
+	}
+
+	.colophon {
+		margin-top: var(--space-xl);
+		padding-top: var(--space-lg);
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.colophon p {
+		margin: 0.35rem 0 0;
+	}
+</style>

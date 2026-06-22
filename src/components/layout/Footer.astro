@@ -1,0 +1,21 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<p class="meta-label">Griffin — 3D renders — {year}</p>
+	<p class="site-footer__note">Digital works only.</p>
+</footer>
+
+<style>
+	.site-footer {
+		padding: var(--space-lg) var(--space-md) var(--space-xl);
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.site-footer__note {
+		margin: var(--space-xs) 0 0;
+		font-size: 0.875rem;
+		color: var(--color-muted);
+	}
+</style>

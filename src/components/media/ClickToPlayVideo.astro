@@ -1,0 +1,79 @@
+---
+import OptimizedImage from './OptimizedImage.astro';
+
+interface Props {
+	src: string;
+	poster: string;
+	alt: string;
+}
+
+const { src, poster, alt } = Astro.props;
+const id = `video-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class="click-video" data-video-root>
+	<button type="button" class="click-video__trigger" data-video-trigger aria-label={`Play video: ${alt}`}>
+		<OptimizedImage src={poster} alt={alt} variant="hero" loading="lazy" />
+		<span class="click-video__label meta-label">Play loop</span>
+	</button>
+	<video
+		id={id}
+		class="click-video__player"
+		data-video-player
+		muted
+		loop
+		playsinline
+		preload="none"
+		hidden
+	>
+		<source src={src} type="video/mp4" />
+	</video>
+</div>
+
+<script>
+	const roots = document.querySelectorAll('[data-video-root]');
+
+	for (const root of roots) {
+		const trigger = root.querySelector('[data-video-trigger]');
+		const video = root.querySelector('[data-video-player]');
+		if (!(trigger instanceof HTMLButtonElement) || !(video instanceof HTMLVideoElement)) continue;
+
+		trigger.addEventListener('click', () => {
+			trigger.hidden = true;
+			video.hidden = false;
+			video.play();
+		});
+	}
+</script>
+
+<style>
+	.click-video {
+		position: relative;
+	}
+
+	.click-video__trigger {
+		display: block;
+		width: 100%;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		cursor: pointer;
+		position: relative;
+	}
+
+	.click-video__label {
+		position: absolute;
+		right: var(--space-sm);
+		bottom: var(--space-sm);
+		background: var(--dragon-black-4);
+		border: 1px solid var(--dragon-black-5);
+		color: var(--color-accent-warm);
+		padding: 0.35rem 0.6rem;
+	}
+
+	.click-video__player {
+		width: 100%;
+		min-height: 70vh;
+		object-fit: cover;
+	}
+</style>
