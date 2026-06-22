@@ -243,7 +243,7 @@ The site is a **static export** — no server runtime, database, or secrets. Any
 | Install | `npm ci` (or `npm install`) |
 | Build | `npm run build` |
 | Output | `dist/` |
-| Node | ≥ 22.12.0 (`.nvmrc`) |
+| Node | ≥ 24.0.0 (`.nvmrc`, Active LTS) |
 | Pre-build check | `npm run validate:content` (runs automatically via `prebuild`) |
 
 ### Environment variables
@@ -289,7 +289,7 @@ npm run preview
 3. Build command: `npm run build`
 4. Output directory: `dist`
 5. Environment variable: `SITE_URL` = your production URL (e.g. `https://griffin-portfolio.vercel.app` or custom domain).
-6. Deploy. Vercel picks Node from `.nvmrc` when present; otherwise set **Node.js 22** in project settings.
+6. Deploy. Vercel picks Node from `.nvmrc` when present; otherwise set **Node.js 24** in project settings.
 
 Do **not** set `BASE_PATH` unless you intentionally deploy under a subpath.
 
@@ -301,7 +301,7 @@ Do **not** set `BASE_PATH` unless you intentionally deploy under a subpath.
 2. Build command: `npm run build`
 3. Publish directory: `dist`
 4. Environment: `SITE_URL=https://your-site.netlify.app` (or custom domain).
-5. **Environment** → set **Node version** to **22** (or add `NODE_VERSION=22`).
+5. **Environment** → set **Node version** to **24** (or add `NODE_VERSION=24`).
 
 Optional `netlify.toml` at repo root:
 
@@ -311,7 +311,7 @@ Optional `netlify.toml` at repo root:
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "22"
+  NODE_VERSION = "24"
   SITE_URL = "https://your-site.netlify.app"
 ```
 
@@ -325,7 +325,7 @@ Replace `SITE_URL` with your real URL before merging.
 2. Build command: `npm run build`
 3. Build output directory: `dist`
 4. **Environment variables** (Production): `SITE_URL` = `https://your-project.pages.dev` or custom domain.
-5. Set **Node.js version** to **22** in build settings.
+5. Set **Node.js version** to **24** in build settings.
 
 ---
 
@@ -399,7 +399,7 @@ Content entries use `id` (filename), not `slug`. In `getStaticPaths`, use `param
 
 ### Node version errors
 
-Astro 6 scaffold expects Node ≥ 22.12.0. Run `nvm use` before install/build.
+This project targets Node **24** (Active LTS). Run `nvm use` before install/build. Astro 6 requires Node ≥ 22.12.0; 24 satisfies that.
 
 ### Piece not on `/work`
 

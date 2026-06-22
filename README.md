@@ -17,10 +17,10 @@ Those two files are the paper trail for this repo. The [developer guide](docs/DE
 
 ## Requirements
 
-- Node.js ≥ 22.12.0 (see `.nvmrc`)
+- Node.js ≥ 24.0.0 (Active LTS — see `.nvmrc`)
 - npm 10+
 
-If you use `nvm`, run `nvm use` before install. Otherwise install Node 22 manually (fnm, volta, or nodejs.org) and confirm with `node -v`.
+If you use `nvm`, run `nvm use` before install. Otherwise install Node 24 manually (fnm, volta, or nodejs.org) and confirm with `node -v`.
 
 ## Quickstart
 
@@ -36,7 +36,7 @@ Then open http://localhost:4321.
 
 What that does:
 
-1. `nvm use` — selects Node 22 from `.nvmrc`.
+1. `nvm use` — selects Node 24 from `.nvmrc`.
 2. `npm install` — installs Astro, MDX, and build tooling.
 3. `npm run dev` — serves the site with hot reload on port 4321.
 
@@ -77,7 +77,7 @@ npm run build
 |---------|--------|
 | Build command | `npm run build` |
 | Output directory | `dist` |
-| Node.js | ≥ 22.12.0 (`.nvmrc`) |
+| Node.js | ≥ 24.0.0 (`.nvmrc`) |
 
 **Environment variables at build time:**
 

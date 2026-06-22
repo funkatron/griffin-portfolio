@@ -3,9 +3,12 @@
 | Field | Value |
 |-------|-------|
 | Session ID | `09eb1208-d398-4e44-b0be-7ce4997af205` |
-| Exported | 2026-06-22 |
+| Exported | 2026-06-22 (updated after merge + Node 24 bump) |
 | Source | Cursor agent transcript (JSONL → Markdown) |
 | PR | https://github.com/funkatron/griffin-portfolio/pull/1 (merged) |
+| Messages | 207 |
+
+Covers: v1 build, review fixes, deploy docs, Cursor plan/transcript tracking, manual Pages workflow, README pointers, Node 24 LTS upgrade.
 
 Tool calls are summarized inline; full tool payloads live in the JSONL source.
 
@@ -3136,5 +3139,376 @@ Adding the plan and chat export under `.cursor`, updating `.gitignore` to allow 
 > *[Read invoked]*
 
 > *[Glob invoked]*
+
+---
+
+## Assistant (176)
+
+[REDACTED]
+
+> *[Read invoked]*
+
+> *[Read invoked]*
+
+> *[Grep invoked]*
+
+---
+
+## Assistant (177)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (178)
+
+Creating a chat export script and updating `.gitignore` and the deploy workflow.
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+> *[Write invoked]*
+
+> *[StrReplace invoked]*
+
+> *[Write invoked]*
+
+---
+
+## Assistant (179)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+> *[Read invoked]*
+
+> *[Read invoked]*
+
+---
+
+## Assistant (180)
+
+[REDACTED]
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (181)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (182)
+
+Done — pushed to `main` as `1ca253d`.
+
+### `.cursor/` (tracked selectively)
+
+| Path | Contents |
+|------|----------|
+| `.cursor/plans/griffin_portfolio_v1_34fee3c5.plan.md` | Original v1 task plan |
+| `.cursor/transcripts/portfolio-v1-session-09eb1208.md` | Full chat export (175 messages, ~84 KB) |
+| `.cursor/README.md` | Explains what is and isn’t tracked |
+
+**`.gitignore`** ignores `.cursor/*` except `README.md`, `plans/`, and `transcripts/`.
+
+### Deploy workflow — manual only
+
+`.github/workflows/deploy-pages.yml` now runs **only** on `workflow_dispatch` — **not** on push to `main`.
+
+To publish: **Actions → Deploy to GitHub Pages → Run workflow**
+
+README, `docs/DEVELOPMENT.md`, and the handoff doc all say manual-only.
+
+### Note
+
+The merge commit (`c47db2d`) may have already triggered an auto-deploy from the earlier workflow version. Future pushes to `main` (including this one) will **not** deploy unless you run the workflow manually.
+
+[REDACTED]
+
+---
+
+## Assistant (183)
+
+---
+
+## User (184)
+
+<user_query>
+confirm if it did
+</user_query>
+
+---
+
+## Assistant (185)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (186)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (187)
+
+Yes — it ran **once**, on the PR merge push to `main`. Nothing went live.
+
+| | |
+|---|---|
+| **Run** | [Deploy to GitHub Pages #27969322241](https://github.com/funkatron/griffin-portfolio/actions/runs/27969322241) |
+| **Trigger** | `push` to `main` (merge commit `c47db2d`) |
+| **When** | 2026-06-22 16:52 UTC (~3 min before your cursor-docs push) |
+| **Build job** | Succeeded (20s) |
+| **Deploy job** | **Failed** — GitHub Pages not enabled (`404` from `deploy-pages`) |
+
+Error message: *“Ensure GitHub Pages has been enabled”* → [repo Pages settings](https://github.com/funkatron/griffin-portfolio/settings/pages)
+
+**After that:** no workflow runs on your later `1ca253d` push (manual-only change took effect). So no surprise deploy from the cursor-docs commit.
+
+**Bottom line:** the auto-run fired on merge, build passed, deploy failed because Pages wasn’t turned on. The site was never published. When you’re ready: enable Pages (source: **GitHub Actions**), then run the workflow manually from Actions.
+
+[REDACTED]
+
+---
+
+## Assistant (188)
+
+---
+
+## User (189)
+
+<user_query>
+in the README.md, point out the poan and transcript so Griffin can see how it is done
+</user_query>
+
+---
+
+## Assistant (190)
+
+[REDACTED]
+
+> *[Read invoked]*
+
+---
+
+## Assistant (191)
+
+[REDACTED]
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+---
+
+## Assistant (192)
+
+Added a **How this site was built** section near the top of `README.md` with links to:
+
+- **Plan** — `.cursor/plans/griffin_portfolio_v1_34fee3c5.plan.md` (scope, AC, stack)
+- **Session transcript** — `.cursor/transcripts/portfolio-v1-session-09eb1208.md` (full build chat)
+
+Also added a row in **Common tasks** pointing to the same two files.
+
+Change is local only — say if you want it committed and pushed.
+
+[REDACTED]
+
+---
+
+## Assistant (193)
+
+---
+
+## User (194)
+
+<user_query>
+commit and push
+</user_query>
+
+---
+
+## Assistant (195)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (196)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (197)
+
+Committed and pushed to `main` as `ddd1ed5`.
+
+**Commit:** Point README at Cursor plan and session transcript for Griffin.
+
+No deploy workflow run — it’s still manual-only.
+
+[REDACTED]
+
+---
+
+## Assistant (198)
+
+---
+
+## User (199)
+
+<user_query>
+are we using current node LTS
+</user_query>
+
+---
+
+## Assistant (200)
+
+[REDACTED]
+
+> *[Read invoked]*
+
+> *[Read invoked]*
+
+> *[WebSearch invoked]*
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (201)
+
+**No** — not the current **Active LTS**.
+
+| | This repo | Current LTS (June 2026) |
+|---|-----------|-------------------------|
+| **Line** | Node **22** (Maintenance LTS, “Jod”) | Node **24** (Active LTS, “Krypton”) — latest **v24.17.0** |
+| **Pinned in** | `.nvmrc` → `22`; `package.json` → `>=22.12.0` | — |
+| **Your machine** | v22.22.3 via `nvm use` | — |
+| **Support** | Maintenance until **2027-04-30** | Active LTS until **2028-04-30** |
+
+Node **26** is **Current** (not LTS yet; LTS starts Oct 2026).
+
+**Why 22 here:** Astro 6 needs Node ≥ 22.12.0; the project was scaffolded on 22 and still builds fine there.
+
+**Practical takeaway:** 22 is still supported LTS, just the older line. For “current LTS” you’d move to **24** — worth a quick `npm run build` on 24 before changing `.nvmrc` and `engines`. I can bump the repo to 24 if you want.
+
+[REDACTED]
+
+---
+
+## Assistant (202)
+
+---
+
+## User (203)
+
+<user_query>
+plusses and minuses?
+</user_query>
+
+---
+
+## Assistant (204)
+
+**Stay on Node 22 (Maintenance LTS)**
+
+**Pluses**
+- **Already works** — scaffolded, tested, and documented (`>=22.12.0`, `.nvmrc`, CI, deploy workflow).
+- **Low risk** — no dependency surprises; Astro 6’s floor is 22.12, so you’re safely above that.
+- **Still supported** — Maintenance LTS until **April 2027**; fine for a static portfolio that doesn’t ship weekly.
+- **Matches what you have** — local `v22.22.3`, README, and handoff all agree.
+
+**Minuses**
+- **Not Active LTS** — Node **24** is the line new projects and hosts are optimizing for now.
+- **Shorter runway** — EOL **2027-04** vs **2028-04** on 24 (~1 year less).
+- **Older bundled tooling** — npm 10 on 22 vs npm 11 on 24; slightly older V8 (usually irrelevant for this site).
+- **Drift over time** — new Astro/tooling docs and CI images will increasingly default to 24.
+
+---
+
+**Upgrade to Node 24 (Active LTS)**
+
+**Pluses**
+- **Current LTS default** — “Krypton” is what Node recommends for new production work through **2028-04**.
+- **Longer support window** — one less “we need to bump Node again” before the portfolio is mature.
+- **Better alignment** — GitHub Actions, Vercel/Netlify defaults, and future Astro releases will target 24 first.
+- **Small upside on tooling** — npm 11, newer V8; may shave a bit off install/build (not dramatic for 32 static pages).
+
+**Minuses**
+- **Migration cost** — update `.nvmrc`, `package.json` `engines`, README, deploy docs, and verify `npm ci && npm run build` on 24.
+- **Low payoff for this repo** — no server runtime, DB, or heavy native addons; you’re mostly running Astro’s build once in a while.
+- **Possible friction** — rare peer-dep or native-module warnings on bump (unlikely here; deps are Astro + MDX only).
+- **Team habit change** — anyone on 22 locally needs `nvm install 24` once.
+
+---
+
+**For Griffin Portfolio specifically**
+
+| Factor | Lean |
+|--------|------|
+| Static Astro site, infrequent updates | **22 is fine** — don’t rush |
+| Want “set and forget” until ~2028 | **24 is worth it** — one small PR |
+| Deploy/host already on Node 22 | Either works; set host to match `.nvmrc` |
+| Griffin maintaining alone, low churn | **22** unless you’re already on 24 globally |
+
+**Bottom line:** Minuses of staying on 22 are mostly *calendar and convention*, not *“this site breaks.”* Minuses of moving to 24 are a short verification pass for modest long-term hygiene. If you’re indifferent, **24** is the better default; if you’d rather not touch anything that already works, **22 until late 2026** is reasonable.
+
+[REDACTED]
+
+---
+
+## Assistant (205)
+
+---
+
+## User (206)
+
+<user_query>
+use 24; then test/smoke
+</user_query>
+
+---
+
+## Assistant (207)
+
+Upgrading the project to Node 24 and running smoke tests.
+
+[REDACTED]
+
+> *[Grep invoked]*
+
+> *[Read invoked]*
+
+> *[Read invoked]*
 
 ---

@@ -18,7 +18,7 @@ Internal delivery note for the next developer, reviewer, or future you. User-fac
 | Item | Value |
 |------|--------|
 | Stack | Astro 6.4, `@astrojs/mdx` 6, TypeScript strict |
-| Node | ≥ 22.12.0 (`.nvmrc`) |
+| Node | ≥ 24.0.0 (`.nvmrc`, Active LTS) |
 | Content | MDX collections + Zod in `src/content.config.ts` |
 | Theme | Kanagawa Dragon (`src/styles/kanagawa.css`) |
 | Default dev URL | http://localhost:4321 |
