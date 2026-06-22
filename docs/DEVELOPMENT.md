@@ -232,20 +232,141 @@ Fonts load from Google Fonts at runtime (`BaseLayout.astro`). Offline dev requir
 
 ---
 
-## Deploy (when ready)
+## Deploy
 
-v1 has no host config in-repo. Any static host that serves a folder works:
+The site is a **static export** — no server runtime, database, or secrets. Any host that serves files from a folder works.
 
-1. `npm run build` → output in `dist/`
-2. Upload `dist/` or connect the repo with build command `npm run build` and output directory `dist/`
+### Quick reference
 
-Set `SITE_URL` at build time for correct canonical and Open Graph URLs (defaults to `https://funkatron.github.io/griffin-portfolio` in `astro.config.mjs`):
+| Setting | Value |
+|---------|--------|
+| Install | `npm ci` (or `npm install`) |
+| Build | `npm run build` |
+| Output | `dist/` |
+| Node | ≥ 22.12.0 (`.nvmrc`) |
+| Pre-build check | `npm run validate:content` (runs automatically via `prebuild`) |
+
+### Environment variables
+
+Set these **during the build step** on your host or in CI:
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `SITE_URL` | **Yes** (production) | Public site origin for `<link rel="canonical">`, Open Graph, and JSON-LD. Must match where users open the site (no trailing slash). |
+| `BASE_PATH` | GitHub Pages project sites only | Astro `base` — repo subpath when the site is **not** at the domain root. Omit for Vercel, Netlify, Cloudflare, or a custom domain at `/`. |
+
+Examples:
 
 ```bash
-SITE_URL=https://your.domain npm run build
+# Custom domain or host root (Vercel, Netlify, etc.)
+SITE_URL=https://portfolio.example.com npm run build
+
+# GitHub Pages project site: funkatron.github.io/griffin-portfolio/
+SITE_URL=https://funkatron.github.io/griffin-portfolio \
+BASE_PATH=/griffin-portfolio \
+npm run build
 ```
 
-Common choices: Vercel, Netlify, Cloudflare Pages. Set Node 22 in the host environment. No server-side rendering or env secrets required for v1.
+Local dev leaves both unset — site runs at `http://localhost:4321/` with no subpath.
+
+### Verify before you ship
+
+```bash
+npm run build
+npm run preview
+```
+
+1. Open `/`, `/astronaut-dreams`, `/work`, and `/work/astronaut-dreams-01`.
+2. Try `/work?series=other` — grid should narrow (client-side filter).
+3. View page source on a project page — canonical and `og:url` should use your `SITE_URL`.
+
+---
+
+### Vercel
+
+1. Import the GitHub repo at [vercel.com/new](https://vercel.com/new).
+2. Framework preset: **Astro** (or Other).
+3. Build command: `npm run build`
+4. Output directory: `dist`
+5. Environment variable: `SITE_URL` = your production URL (e.g. `https://griffin-portfolio.vercel.app` or custom domain).
+6. Deploy. Vercel picks Node from `.nvmrc` when present; otherwise set **Node.js 22** in project settings.
+
+Do **not** set `BASE_PATH` unless you intentionally deploy under a subpath.
+
+---
+
+### Netlify
+
+1. **Add new site** → Import from Git.
+2. Build command: `npm run build`
+3. Publish directory: `dist`
+4. Environment: `SITE_URL=https://your-site.netlify.app` (or custom domain).
+5. **Environment** → set **Node version** to **22** (or add `NODE_VERSION=22`).
+
+Optional `netlify.toml` at repo root:
+
+```toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  SITE_URL = "https://your-site.netlify.app"
+```
+
+Replace `SITE_URL` with your real URL before merging.
+
+---
+
+### Cloudflare Pages
+
+1. **Workers & Pages** → Create → Connect Git.
+2. Build command: `npm run build`
+3. Build output directory: `dist`
+4. **Environment variables** (Production): `SITE_URL` = `https://your-project.pages.dev` or custom domain.
+5. Set **Node.js version** to **22** in build settings.
+
+---
+
+### GitHub Pages
+
+Two common setups:
+
+**A. Project site** (`https://<user>.github.io/<repo>/`) — use for this repo:
+
+1. Repo **Settings** → **Pages** → Source: **GitHub Actions**.
+2. Merge the workflow in `.github/workflows/deploy-pages.yml` (builds with `SITE_URL` + `BASE_PATH`, deploys `dist/`).
+3. After the workflow runs, site URL: `https://funkatron.github.io/griffin-portfolio/`
+
+**B. User/org site or custom domain at root** — site lives at `https://example.com/`:
+
+1. Build with `SITE_URL=https://example.com` only (no `BASE_PATH`).
+2. Upload `dist/` or use the same workflow with those env vars.
+
+Enable **Enforce HTTPS** under Pages settings when using `github.io`.
+
+---
+
+### Manual or any static host
+
+```bash
+nvm use
+npm ci
+SITE_URL=https://your.domain npm run build
+# upload everything inside dist/ to the host (S3 + CloudFront, nginx, etc.)
+```
+
+Point the web server document root at the uploaded folder. Ensure `404.html` handling if your host supports SPA-style fallbacks (optional — this site uses static HTML per route).
+
+---
+
+### Custom domain checklist
+
+1. Add DNS (CNAME or A records) per your host’s docs.
+2. Set `SITE_URL` to the **canonical** HTTPS URL (e.g. `https://portfolio.example.com`).
+3. Rebuild and redeploy after changing `SITE_URL`.
+4. Confirm canonical tags and social previews on one project page.
 
 ---
 

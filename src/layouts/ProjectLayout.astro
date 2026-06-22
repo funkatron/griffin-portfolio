@@ -2,6 +2,7 @@
 import BaseLayout from '../components/layout/BaseLayout.astro';
 import type { CollectionEntry } from 'astro:content';
 import { absoluteUrl, siteOrigin } from '../utils/url';
+import { pathWithBase } from '../utils/paths';
 
 interface Props {
 	piece: CollectionEntry<'pieces'>;
@@ -34,7 +35,7 @@ const jsonLd = {
 		<nav class="project-nav" aria-label="Series navigation">
 			{
 				prev ? (
-					<a href={`/work/${prev.id}`} data-nav="prev">
+					<a href={pathWithBase(`/work/${prev.id}`)} data-nav="prev">
 						← {prev.data.title}
 					</a>
 				) : (
@@ -45,7 +46,7 @@ const jsonLd = {
 			}
 			{
 				next ? (
-					<a href={`/work/${next.id}`} data-nav="next">
+					<a href={pathWithBase(`/work/${next.id}`)} data-nav="next">
 						{next.data.title} →
 					</a>
 				) : (
@@ -59,18 +60,20 @@ const jsonLd = {
 
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-	<script define:vars={{ prevSlug: prev?.id ?? null, nextSlug: next?.id ?? null }}>
+	<script define:vars={{ prevSlug: prev?.id ?? null, nextSlug: next?.id ?? null, baseUrl: import.meta.env.BASE_URL }}>
+		const workPath = (id) => `${baseUrl}work/${id}`.replace(/\/{2,}/g, '/');
+
 		document.addEventListener('keydown', (event) => {
 			if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
 				return;
 			}
 
 			if (event.key === 'ArrowLeft' && prevSlug) {
-				window.location.href = `/work/${prevSlug}`;
+				window.location.href = workPath(prevSlug);
 			}
 
 			if (event.key === 'ArrowRight' && nextSlug) {
-				window.location.href = `/work/${nextSlug}`;
+				window.location.href = workPath(nextSlug);
 			}
 		});
 	</script>

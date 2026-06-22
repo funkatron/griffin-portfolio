@@ -3,6 +3,7 @@ import '../../styles/global.css';
 import DisappearingNav from './DisappearingNav.astro';
 import Footer from './Footer.astro';
 import { absoluteUrl, siteOrigin } from '../../utils/url';
+import { pathWithBase } from '../../utils/paths';
 
 interface Props {
 	title?: string;
@@ -38,7 +39,7 @@ const ogImageUrl = absoluteUrl(ogImage, origin);
 		<meta property="og:image" content={ogImageUrl} />
 		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:type" content="website" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href={pathWithBase('/favicon.svg')} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link

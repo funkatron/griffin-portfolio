@@ -2,9 +2,11 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import AsymmetricGrid from '../../components/editorial/AsymmetricGrid.astro';
 import { getFeaturedPieces, getUniqueYears } from '../../utils/pieces';
+import { pathWithBase } from '../../utils/paths';
 
 const featuredPieces = await getFeaturedPieces();
 const years = getUniqueYears(featuredPieces);
+const baseUrl = import.meta.env.BASE_URL;
 
 const seriesOptions = [
 	{ value: 'all', label: 'All series' },
@@ -24,7 +26,11 @@ const seriesOptions = [
 		{
 			seriesOptions.map((option) => (
 				<a
-					href={option.value === 'all' ? '/work' : `/work?series=${option.value}`}
+					href={
+						option.value === 'all'
+							? pathWithBase('/work')
+							: pathWithBase(`/work?series=${option.value}`)
+					}
 					data-filter-series={option.value}
 				>
 					{option.label}
@@ -33,10 +39,10 @@ const seriesOptions = [
 		}
 
 		<span class="meta-label filter-gap">Year</span>
-		<a href="/work" data-filter-year="all">All years</a>
+		<a href={pathWithBase('/work')} data-filter-year="all">All years</a>
 		{
 			years.map((year) => (
-				<a href={`/work?year=${year}`} data-filter-year={String(year)}>
+				<a href={pathWithBase(`/work?year=${year}`)} data-filter-year={String(year)}>
 					{year}
 				</a>
 			))
@@ -48,8 +54,13 @@ const seriesOptions = [
 	<p class="empty-state" data-work-empty hidden>No works match these filters.</p>
 </PageLayout>
 
-<script>
+<script define:vars={{ baseUrl }}>
 	const VALID_SERIES = ['astronaut-dreams', 'other'];
+
+	function workIndexPath(params) {
+		const query = params.toString();
+		return `${baseUrl}work${query ? `?${query}` : ''}`.replace(/\/{2,}/g, '/');
+	}
 
 	function parseFilters() {
 		const params = new URLSearchParams(window.location.search);
@@ -61,37 +72,37 @@ const seriesOptions = [
 		return { series, year };
 	}
 
-	function syncFilterHrefs(series: string | null, year: string | null) {
+	function syncFilterHrefs(series, year) {
 		const filterBar = document.querySelector('[data-work-filters]');
 		if (!filterBar) return;
 
-		filterBar.querySelectorAll<HTMLAnchorElement>('a[data-filter-series]').forEach((link) => {
+		filterBar.querySelectorAll('a[data-filter-series]').forEach((link) => {
 			const value = link.dataset.filterSeries ?? 'all';
 			const params = new URLSearchParams();
 			if (value !== 'all') params.set('series', value);
 			if (year) params.set('year', year);
-			link.href = params.toString() ? `/work?${params}` : '/work';
+			link.href = workIndexPath(params);
 		});
 
-		filterBar.querySelectorAll<HTMLAnchorElement>('a[data-filter-year]').forEach((link) => {
+		filterBar.querySelectorAll('a[data-filter-year]').forEach((link) => {
 			const value = link.dataset.filterYear ?? 'all';
 			const params = new URLSearchParams();
 			if (series) params.set('series', series);
 			if (value !== 'all') params.set('year', value);
-			link.href = params.toString() ? `/work?${params}` : '/work';
+			link.href = workIndexPath(params);
 		});
 	}
 
-	function updateActiveStates(series: string | null, year: string | null) {
+	function updateActiveStates(series, year) {
 		const filterBar = document.querySelector('[data-work-filters]');
 		if (!filterBar) return;
 
-		filterBar.querySelectorAll<HTMLAnchorElement>('a[data-filter-series]').forEach((link) => {
+		filterBar.querySelectorAll('a[data-filter-series]').forEach((link) => {
 			const value = link.dataset.filterSeries ?? 'all';
 			link.classList.toggle('is-active', (series ?? 'all') === value);
 		});
 
-		filterBar.querySelectorAll<HTMLAnchorElement>('a[data-filter-year]').forEach((link) => {
+		filterBar.querySelectorAll('a[data-filter-year]').forEach((link) => {
 			const value = link.dataset.filterYear ?? 'all';
 			link.classList.toggle('is-active', value === 'all' ? !year : year === value);
 		});
@@ -100,8 +111,8 @@ const seriesOptions = [
 	function applyFilters() {
 		const { series, year } = parseFilters();
 		const grid = document.querySelector('[data-work-grid]');
-		const empty = document.querySelector<HTMLElement>('[data-work-empty]');
-		const items = grid?.querySelectorAll<HTMLElement>('[data-series]') ?? [];
+		const empty = document.querySelector('[data-work-empty]');
+		const items = grid?.querySelectorAll('[data-series]') ?? [];
 
 		let visible = 0;
 		for (const item of items) {

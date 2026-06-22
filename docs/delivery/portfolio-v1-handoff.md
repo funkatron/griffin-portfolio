@@ -8,7 +8,7 @@ Internal delivery note for the next developer, reviewer, or future you. User-fac
 
 - Shipped a static Astro 6 + MDX portfolio: editorial layout, Kanagawa Dragon theme, flagship Astronaut Dreams exhibition (12 works).
 - Image inventory: 12 series JPGs + 2 other featured JPGs + 1 home splash (15 files under `public/`); 13 grid slots still SVG placeholders.
-- Local-only — no deploy pipeline. `npm run build` produces 32 static HTML pages.
+- Local dev default; **deploy docs + GitHub Actions workflow** in repo. `npm run build` → `dist/` (32 pages).
 - **Repo:** https://github.com/funkatron/griffin-portfolio · **PR:** https://github.com/funkatron/griffin-portfolio/pull/1 · **Branch:** `feature/portfolio-v1-astro`
 
 ---
@@ -146,7 +146,7 @@ Key query helpers: `src/utils/pieces.ts` (`getFeaturedPieces`, `filterPieces`, `
 
 1. Replace 13 placeholder `other-*` grid heroes with real renders ([Replace images](../DEVELOPMENT.md#replace-images)).
 2. Finalize About/Contact copy (name, email, social URLs — currently placeholders).
-3. Deploy — see [Deploy (when ready)](../DEVELOPMENT.md#deploy-when-ready); static `dist/` export is ready.
+3. Deploy — [Deploy guide](../DEVELOPMENT.md#deploy); optional `.github/workflows/deploy-pages.yml` for GitHub Pages.
 4. Optional: add `sharp` as devDependency for CI; Pagefind search; Playwright smoke tests.
 
 ---

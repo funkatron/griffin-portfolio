@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import OptimizedImage from '../media/OptimizedImage.astro';
+import { pathWithBase } from '../../utils/paths';
 
 interface Props {
 	pieces: CollectionEntry<'pieces'>[];
@@ -14,7 +15,7 @@ const crops = ['center', '20% 30%', '70% 20%', 'center top', 'left center', '80%
 	{
 		pieces.map((piece, index) => (
 			<a
-				href={`/work/${piece.id}`}
+				href={pathWithBase(`/work/${piece.id}`)}
 				class:list={['grid-item', { 'grid-item--series-ad': piece.data.series === 'astronaut-dreams' }]}
 				data-series={piece.data.series}
 				data-year={String(piece.data.year)}

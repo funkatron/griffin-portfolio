@@ -5,6 +5,7 @@ import TitlePlate from '../components/editorial/TitlePlate.astro';
 import OptimizedImage from '../components/media/OptimizedImage.astro';
 import ProcessStrip from '../components/editorial/ProcessStrip.astro';
 import { getPieceBySlug } from '../utils/pieces';
+import { pathWithBase } from '../utils/paths';
 
 const seriesEntry = await getEntry('series', 'astronaut-dreams');
 if (!seriesEntry) throw new Error('Series astronaut-dreams not found');
@@ -39,7 +40,7 @@ const processImages = processPiece?.data.process ?? [];
 					<p class="sequence-index meta-label rotated-label">
 						{String(index + 1).padStart(2, '0')}/12
 					</p>
-					<a href={`/work/${piece.id}`} class="sequence-media">
+					<a href={pathWithBase(`/work/${piece.id}`)} class="sequence-media">
 						<OptimizedImage
 							src={piece.data.hero}
 							alt={piece.data.alt}

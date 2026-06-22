@@ -1,4 +1,6 @@
 ---
+import { pathWithBase } from '../../utils/paths';
+
 const links = [
 	{ href: '/work', label: 'Work' },
 	{ href: '/astronaut-dreams', label: 'Astronaut Dreams' },
@@ -6,15 +8,17 @@ const links = [
 	{ href: '/contact', label: 'Contact' },
 ];
 
+const navLinks = links.map((link) => ({ ...link, href: pathWithBase(link.href) }));
+
 const currentPath = Astro.url.pathname;
 ---
 
 <header class="site-nav" data-site-nav aria-label="Primary">
 	<div class="site-nav__inner">
-		<a href="/" class="site-nav__brand">Griffin</a>
+		<a href={pathWithBase('/')} class="site-nav__brand">Griffin</a>
 		<nav class="site-nav__links">
 			{
-				links.map((link) => (
+				navLinks.map((link) => (
 					<a
 						href={link.href}
 						class:list={{ 'is-active': currentPath === link.href || currentPath.startsWith(`${link.href}/`) }}
