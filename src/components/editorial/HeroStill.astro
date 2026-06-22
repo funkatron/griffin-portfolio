@@ -1,0 +1,59 @@
+---
+import OptimizedImage from '../media/OptimizedImage.astro';
+import CreditsOverlay from './CreditsOverlay.astro';
+
+interface Props {
+	src: string;
+	alt: string;
+	title?: string;
+	year?: number;
+	series?: string;
+	tools?: string[];
+	description?: string;
+	showCredits?: boolean;
+	priority?: boolean;
+}
+
+const {
+	src,
+	alt,
+	title,
+	year,
+	series,
+	tools,
+	description,
+	showCredits = false,
+	priority = false,
+} = Astro.props;
+---
+
+<div class="media-frame hero-still" data-media-frame>
+	<OptimizedImage
+		src={src}
+		alt={alt}
+		variant="full"
+		loading={priority ? 'eager' : 'lazy'}
+	/>
+	{
+		showCredits && title && year != null && series && (
+			<CreditsOverlay title={title} year={year} series={series} tools={tools} description={description} />
+		)
+	}
+</div>
+
+<script>
+	const frames = document.querySelectorAll('[data-media-frame]');
+
+	for (const frame of frames) {
+		frame.addEventListener('click', () => {
+			frame.classList.toggle('is-revealed');
+		});
+	}
+</script>
+
+<style>
+	.hero-still {
+		position: relative;
+		min-height: 75vh;
+	}
+</style>

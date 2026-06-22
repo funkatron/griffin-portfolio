@@ -1,0 +1,52 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="About" description="About Griffin — 3D artist">
+	<header class="about-header">
+		<h1 class="display-title">About</h1>
+	</header>
+
+	<div class="about-copy">
+		<p>
+			Griffin makes digital stills and short loops — architectural moods, figurative studies, and
+			speculative scenes rendered in 3D.
+		</p>
+		<p>
+			This site is an editorial portfolio: full-bleed images, numbered exhibitions, and minimal
+			chrome. Works are shared with the community and presented for curators as coherent series.
+		</p>
+	</div>
+
+	<section class="about-tools">
+		<p class="meta-label">Tools</p>
+		<ul>
+			<li>Blender</li>
+			<li>Cycles</li>
+			<li>Photoshop</li>
+		</ul>
+	</section>
+</PageLayout>
+
+<style>
+	.about-header {
+		margin-bottom: var(--space-lg);
+	}
+
+	.about-copy {
+		max-width: 52ch;
+		font-size: 1.0625rem;
+		line-height: 1.65;
+	}
+
+	.about-tools {
+		margin-top: var(--space-xl);
+		padding-top: var(--space-lg);
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.about-tools ul {
+		margin: var(--space-sm) 0 0;
+		padding-left: 1.1rem;
+	}
+</style>

@@ -1,0 +1,46 @@
+---
+import OptimizedImage from '../media/OptimizedImage.astro';
+
+interface Props {
+	images: string[];
+	alt: string;
+	labels?: string[];
+}
+
+const { images, alt, labels = ['Blockout', 'Sculpt', 'Lookdev', 'Light', 'Render', 'Comp'] } =
+	Astro.props;
+---
+
+<section class="process-strip-block" aria-label="Process">
+	<p class="meta-label process-strip-block__heading">Process</p>
+	<div class="process-strip">
+		{
+			images.map((src, index) => (
+				<figure class="process-strip__item">
+					<OptimizedImage src={src} alt={`${alt} — ${labels[index] ?? `stage ${index + 1}`}`} variant="thumb" />
+					<figcaption class="meta-label">{labels[index] ?? `Stage ${index + 1}`}</figcaption>
+				</figure>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	.process-strip-block {
+		margin: var(--space-xl) 0;
+		padding-top: var(--space-lg);
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.process-strip-block__heading {
+		margin: 0 0 var(--space-md);
+	}
+
+	.process-strip__item {
+		margin: 0;
+	}
+
+	.process-strip__item figcaption {
+		margin-top: 0.35rem;
+	}
+</style>

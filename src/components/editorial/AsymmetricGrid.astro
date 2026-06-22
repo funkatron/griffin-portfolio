@@ -1,0 +1,86 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import OptimizedImage from '../media/OptimizedImage.astro';
+import { pathWithBase } from '../../utils/paths';
+
+interface Props {
+	pieces: CollectionEntry<'pieces'>[];
+}
+
+const { pieces } = Astro.props;
+const crops = ['center', '20% 30%', '70% 20%', 'center top', 'left center', '80% 60%'];
+---
+
+<div class="asymmetric-grid" data-work-grid>
+	{
+		pieces.map((piece, index) => (
+			<a
+				href={pathWithBase(`/work/${piece.id}`)}
+				class:list={['grid-item', { 'grid-item--series-ad': piece.data.series === 'astronaut-dreams' }]}
+				data-series={piece.data.series}
+				data-year={String(piece.data.year)}
+			>
+				<OptimizedImage
+					src={piece.data.hero}
+					alt={piece.data.alt}
+					variant="thumb"
+					loading={index < 6 ? 'eager' : 'lazy'}
+					objectPosition={crops[index % crops.length]}
+				/>
+				<div class="grid-item__meta">
+					<span class="meta-label">{piece.data.year}</span>
+					<span class="grid-item__title">{piece.data.title}</span>
+					{piece.data.series === 'astronaut-dreams' && (
+						<span class="meta-label grid-item__series">Astronaut Dreams</span>
+					)}
+				</div>
+			</a>
+		))
+	}
+</div>
+
+<style>
+	.grid-item {
+		display: block;
+		text-decoration: none;
+		color: inherit;
+		position: relative;
+		min-height: 220px;
+	}
+
+	.grid-item__meta {
+		position: absolute;
+		left: var(--space-sm);
+		bottom: var(--space-sm);
+		color: var(--dragon-white);
+		text-shadow: 0 2px 16px rgba(13, 12, 12, 0.8);
+	}
+
+	.grid-item__title {
+		display: block;
+		font-family: var(--font-display);
+		font-size: 1.25rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		line-height: 1;
+	}
+
+	.grid-item__series {
+		display: block;
+		margin-top: 0.25rem;
+	}
+
+	.grid-item[hidden] {
+		display: none !important;
+	}
+
+	.grid-item--series-ad::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 3px;
+		height: 100%;
+		background: var(--color-accent);
+	}
+</style>

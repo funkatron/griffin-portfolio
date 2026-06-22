@@ -1,0 +1,145 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import AsymmetricGrid from '../../components/editorial/AsymmetricGrid.astro';
+import { getFeaturedPieces, getUniqueYears } from '../../utils/pieces';
+import { pathWithBase } from '../../utils/paths';
+
+const featuredPieces = await getFeaturedPieces();
+const years = getUniqueYears(featuredPieces);
+const baseUrl = import.meta.env.BASE_URL;
+
+const seriesOptions = [
+	{ value: 'all', label: 'All series' },
+	{ value: 'astronaut-dreams', label: 'Astronaut Dreams' },
+	{ value: 'other', label: 'Other' },
+];
+---
+
+<PageLayout title="Work" description="Selected 3D renders by Griffin">
+	<header class="work-header">
+		<h1 class="display-title">Work</h1>
+		<p class="meta-label">{featuredPieces.length} selected works</p>
+	</header>
+
+	<div class="filter-bar" aria-label="Filters" data-work-filters>
+		<span class="meta-label">Series</span>
+		{
+			seriesOptions.map((option) => (
+				<a
+					href={
+						option.value === 'all'
+							? pathWithBase('/work')
+							: pathWithBase(`/work?series=${option.value}`)
+					}
+					data-filter-series={option.value}
+				>
+					{option.label}
+				</a>
+			))
+		}
+
+		<span class="meta-label filter-gap">Year</span>
+		<a href={pathWithBase('/work')} data-filter-year="all">All years</a>
+		{
+			years.map((year) => (
+				<a href={pathWithBase(`/work?year=${year}`)} data-filter-year={String(year)}>
+					{year}
+				</a>
+			))
+		}
+	</div>
+
+	<AsymmetricGrid pieces={featuredPieces} />
+
+	<p class="empty-state" data-work-empty hidden>No works match these filters.</p>
+</PageLayout>
+
+<script define:vars={{ baseUrl }}>
+	const VALID_SERIES = ['astronaut-dreams', 'other'];
+
+	function workIndexPath(params) {
+		const query = params.toString();
+		return `${baseUrl}work${query ? `?${query}` : ''}`.replace(/\/{2,}/g, '/');
+	}
+
+	function parseFilters() {
+		const params = new URLSearchParams(window.location.search);
+		const rawSeries = params.get('series');
+		const rawYear = params.get('year');
+		const series =
+			rawSeries && VALID_SERIES.includes(rawSeries) ? rawSeries : null;
+		const year = rawYear && rawYear !== 'all' ? rawYear : null;
+		return { series, year };
+	}
+
+	function syncFilterHrefs(series, year) {
+		const filterBar = document.querySelector('[data-work-filters]');
+		if (!filterBar) return;
+
+		filterBar.querySelectorAll('a[data-filter-series]').forEach((link) => {
+			const value = link.dataset.filterSeries ?? 'all';
+			const params = new URLSearchParams();
+			if (value !== 'all') params.set('series', value);
+			if (year) params.set('year', year);
+			link.href = workIndexPath(params);
+		});
+
+		filterBar.querySelectorAll('a[data-filter-year]').forEach((link) => {
+			const value = link.dataset.filterYear ?? 'all';
+			const params = new URLSearchParams();
+			if (series) params.set('series', series);
+			if (value !== 'all') params.set('year', value);
+			link.href = workIndexPath(params);
+		});
+	}
+
+	function updateActiveStates(series, year) {
+		const filterBar = document.querySelector('[data-work-filters]');
+		if (!filterBar) return;
+
+		filterBar.querySelectorAll('a[data-filter-series]').forEach((link) => {
+			const value = link.dataset.filterSeries ?? 'all';
+			link.classList.toggle('is-active', (series ?? 'all') === value);
+		});
+
+		filterBar.querySelectorAll('a[data-filter-year]').forEach((link) => {
+			const value = link.dataset.filterYear ?? 'all';
+			link.classList.toggle('is-active', value === 'all' ? !year : year === value);
+		});
+	}
+
+	function applyFilters() {
+		const { series, year } = parseFilters();
+		const grid = document.querySelector('[data-work-grid]');
+		const empty = document.querySelector('[data-work-empty]');
+		const items = grid?.querySelectorAll('[data-series]') ?? [];
+
+		let visible = 0;
+		for (const item of items) {
+			const itemSeries = item.dataset.series;
+			const itemYear = item.dataset.year;
+			const show =
+				(!series || itemSeries === series) && (!year || itemYear === year);
+			item.hidden = !show;
+			if (show) visible += 1;
+		}
+
+		if (empty) empty.hidden = visible > 0;
+
+		syncFilterHrefs(series, year);
+		updateActiveStates(series, year);
+	}
+
+	applyFilters();
+	window.addEventListener('popstate', applyFilters);
+</script>
+
+<style>
+	.work-header {
+		margin-bottom: var(--space-lg);
+	}
+
+	.filter-gap {
+		margin-left: var(--space-md);
+	}
+</style>

@@ -1,0 +1,50 @@
+---
+interface Props {
+	src: string;
+	alt: string;
+	variant?: 'thumb' | 'hero' | 'full';
+	loading?: 'lazy' | 'eager';
+	class?: string;
+	objectPosition?: string;
+}
+
+const {
+	src,
+	alt,
+	variant = 'thumb',
+	loading = 'lazy',
+	class: className = '',
+	objectPosition = 'center',
+} = Astro.props;
+
+const classes = ['optimized-image', `optimized-image--${variant}`, className]
+	.filter(Boolean)
+	.join(' ');
+const style = `object-position: ${objectPosition}`;
+---
+
+<img
+	src={src}
+	alt={alt}
+	loading={loading}
+	class={classes}
+	style={style}
+	decoding="async"
+/>
+
+<style>
+	.optimized-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.optimized-image--hero,
+	.optimized-image--full {
+		min-height: 70vh;
+	}
+
+	.optimized-image--thumb {
+		aspect-ratio: 3 / 2;
+	}
+</style>
