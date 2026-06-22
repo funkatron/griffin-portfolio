@@ -88,7 +88,7 @@ BASE_PATH=/griffin-portfolio \
 npm run build
 ```
 
-Step-by-step for [Vercel](docs/DEVELOPMENT.md#vercel), [Netlify](docs/DEVELOPMENT.md#netlify), [Cloudflare Pages](docs/DEVELOPMENT.md#cloudflare-pages), [GitHub Pages](docs/DEVELOPMENT.md#github-pages), and [manual upload](docs/DEVELOPMENT.md#manual-or-any-static-host) are in [docs/DEVELOPMENT.md#deploy](docs/DEVELOPMENT.md#deploy).
+Step-by-step for [Vercel](docs/DEVELOPMENT.md#vercel), [Netlify](docs/DEVELOPMENT.md#netlify), [Cloudflare Pages](docs/DEVELOPMENT.md#cloudflare-pages), [GitHub Pages](docs/DEVELOPMENT.md#github-pages) (manual workflow — **not** auto-deploy on push to `main`), and [manual upload](docs/DEVELOPMENT.md#manual-or-any-static-host) are in [docs/DEVELOPMENT.md#deploy](docs/DEVELOPMENT.md#deploy).
 
 After deploy, spot-check `/`, `/astronaut-dreams`, `/work?series=other`, and one project page. Work grid filters run in the browser — they work on static hosts.
 

@@ -25,3 +25,11 @@ pnpm-debug.log*
 
 # local full-resolution originals (optional; JPGs live in public/works/)
 sources/
+
+# Cursor workspace — track plans + session exports only (see .cursor/README.md)
+.cursor/*
+!.cursor/README.md
+!.cursor/plans/
+!.cursor/plans/**
+!.cursor/transcripts/
+!.cursor/transcripts/**

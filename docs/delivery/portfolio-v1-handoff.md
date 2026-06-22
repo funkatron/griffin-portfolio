@@ -146,7 +146,7 @@ Key query helpers: `src/utils/pieces.ts` (`getFeaturedPieces`, `filterPieces`, `
 
 1. Replace 13 placeholder `other-*` grid heroes with real renders ([Replace images](../DEVELOPMENT.md#replace-images)).
 2. Finalize About/Contact copy (name, email, social URLs — currently placeholders).
-3. Deploy — [Deploy guide](../DEVELOPMENT.md#deploy); optional `.github/workflows/deploy-pages.yml` for GitHub Pages.
+3. Deploy — [Deploy guide](../DEVELOPMENT.md#deploy); `.github/workflows/deploy-pages.yml` is **manual-only** (no auto-deploy on `main`).
 4. Optional: add `sharp` as devDependency for CI; Pagefind search; Playwright smoke tests.
 
 ---
