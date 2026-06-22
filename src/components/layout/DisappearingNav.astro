@@ -29,34 +29,36 @@ const currentPath = Astro.url.pathname;
 
 <script>
 	const nav = document.querySelector('[data-site-nav]');
-	if (!nav) throw new Error('Nav root missing');
+	if (!nav) {
+		// Layout may omit nav; skip scroll/hover behavior instead of throwing.
+	} else {
+		let visible = false;
 
-	let visible = false;
+		const show = () => {
+			if (visible) return;
+			visible = true;
+			nav.classList.add('is-visible');
+		};
 
-	const show = () => {
-		if (visible) return;
-		visible = true;
-		nav.classList.add('is-visible');
-	};
+		const hide = () => {
+			if (!visible) return;
+			visible = false;
+			nav.classList.remove('is-visible');
+		};
 
-	const hide = () => {
-		if (!visible) return;
-		visible = false;
-		nav.classList.remove('is-visible');
-	};
+		window.addEventListener(
+			'scroll',
+			() => {
+				if (window.scrollY > 80) show();
+				else hide();
+			},
+			{ passive: true },
+		);
 
-	window.addEventListener(
-		'scroll',
-		() => {
-			if (window.scrollY > 80) show();
-			else hide();
-		},
-		{ passive: true },
-	);
-
-	window.addEventListener('mousemove', (event) => {
-		if (event.clientY < 72) show();
-	});
+		window.addEventListener('mousemove', (event) => {
+			if (event.clientY < 72) show();
+		});
+	}
 </script>
 
 <style>

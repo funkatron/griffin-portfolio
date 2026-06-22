@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../components/layout/BaseLayout.astro';
 import type { CollectionEntry } from 'astro:content';
+import { absoluteUrl, siteOrigin } from '../utils/url';
 
 interface Props {
 	piece: CollectionEntry<'pieces'>;
@@ -10,6 +11,7 @@ interface Props {
 
 const { piece, prev, next } = Astro.props;
 const { title, description, hero, alt, year, series, tools } = piece.data;
+const origin = siteOrigin(Astro.site);
 
 const jsonLd = {
 	'@context': 'https://schema.org',
@@ -17,7 +19,7 @@ const jsonLd = {
 	name: title,
 	description: description ?? alt,
 	dateCreated: String(year),
-	image: hero,
+	image: absoluteUrl(hero, origin),
 	creator: {
 		'@type': 'Person',
 		name: 'Griffin',

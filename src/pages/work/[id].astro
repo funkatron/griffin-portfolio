@@ -10,7 +10,7 @@ import { getPiecesBySeries, getSeriesNeighbors } from '../../utils/pieces';
 export async function getStaticPaths() {
 	const pieces = await getCollection('pieces');
 	return pieces.map((piece) => ({
-		params: { slug: piece.id },
+		params: { id: piece.id },
 		props: { piece },
 	}));
 }

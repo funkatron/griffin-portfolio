@@ -1,18 +1,10 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import AsymmetricGrid from '../../components/editorial/AsymmetricGrid.astro';
-import { filterPieces, getFeaturedPieces, getUniqueYears } from '../../utils/pieces';
+import { getFeaturedPieces, getUniqueYears } from '../../utils/pieces';
 
 const featuredPieces = await getFeaturedPieces();
 const years = getUniqueYears(featuredPieces);
-
-const seriesParam = Astro.url.searchParams.get('series');
-const yearParam = Astro.url.searchParams.get('year');
-
-const filtered = filterPieces(featuredPieces, {
-	series: seriesParam,
-	year: yearParam,
-});
 
 const seriesOptions = [
 	{ value: 'all', label: 'All series' },
@@ -27,46 +19,109 @@ const seriesOptions = [
 		<p class="meta-label">{featuredPieces.length} selected works</p>
 	</header>
 
-	<div class="filter-bar" aria-label="Filters">
+	<div class="filter-bar" aria-label="Filters" data-work-filters>
 		<span class="meta-label">Series</span>
 		{
-			seriesOptions.map((option) => {
-				const params = new URLSearchParams(Astro.url.searchParams);
-				if (option.value === 'all') params.delete('series');
-				else params.set('series', option.value);
-				const href = params.toString() ? `/work?${params}` : '/work';
-				const active = (seriesParam ?? 'all') === option.value;
-				return (
-					<a href={href} class:list={{ 'is-active': active }}>
-						{option.label}
-					</a>
-				);
-			})
+			seriesOptions.map((option) => (
+				<a
+					href={option.value === 'all' ? '/work' : `/work?series=${option.value}`}
+					data-filter-series={option.value}
+				>
+					{option.label}
+				</a>
+			))
 		}
 
 		<span class="meta-label filter-gap">Year</span>
-		<a
-			href={`/work${seriesParam ? `?series=${seriesParam}` : ''}`}
-			class:list={{ 'is-active': !yearParam || yearParam === 'all' }}
-		>
-			All years
-		</a>
+		<a href="/work" data-filter-year="all">All years</a>
 		{
-			years.map((year) => {
-				const params = new URLSearchParams(Astro.url.searchParams);
-				params.set('year', String(year));
-				const href = `/work?${params}`;
-				return (
-					<a href={href} class:list={{ 'is-active': yearParam === String(year) }}>
-						{year}
-					</a>
-				);
-			})
+			years.map((year) => (
+				<a href={`/work?year=${year}`} data-filter-year={String(year)}>
+					{year}
+				</a>
+			))
 		}
 	</div>
 
-	{filtered.length > 0 ? <AsymmetricGrid pieces={filtered} /> : <p class="empty-state">No works match these filters.</p>}
+	<AsymmetricGrid pieces={featuredPieces} />
+
+	<p class="empty-state" data-work-empty hidden>No works match these filters.</p>
 </PageLayout>
+
+<script>
+	const VALID_SERIES = ['astronaut-dreams', 'other'];
+
+	function parseFilters() {
+		const params = new URLSearchParams(window.location.search);
+		const rawSeries = params.get('series');
+		const rawYear = params.get('year');
+		const series =
+			rawSeries && VALID_SERIES.includes(rawSeries) ? rawSeries : null;
+		const year = rawYear && rawYear !== 'all' ? rawYear : null;
+		return { series, year };
+	}
+
+	function syncFilterHrefs(series: string | null, year: string | null) {
+		const filterBar = document.querySelector('[data-work-filters]');
+		if (!filterBar) return;
+
+		filterBar.querySelectorAll<HTMLAnchorElement>('a[data-filter-series]').forEach((link) => {
+			const value = link.dataset.filterSeries ?? 'all';
+			const params = new URLSearchParams();
+			if (value !== 'all') params.set('series', value);
+			if (year) params.set('year', year);
+			link.href = params.toString() ? `/work?${params}` : '/work';
+		});
+
+		filterBar.querySelectorAll<HTMLAnchorElement>('a[data-filter-year]').forEach((link) => {
+			const value = link.dataset.filterYear ?? 'all';
+			const params = new URLSearchParams();
+			if (series) params.set('series', series);
+			if (value !== 'all') params.set('year', value);
+			link.href = params.toString() ? `/work?${params}` : '/work';
+		});
+	}
+
+	function updateActiveStates(series: string | null, year: string | null) {
+		const filterBar = document.querySelector('[data-work-filters]');
+		if (!filterBar) return;
+
+		filterBar.querySelectorAll<HTMLAnchorElement>('a[data-filter-series]').forEach((link) => {
+			const value = link.dataset.filterSeries ?? 'all';
+			link.classList.toggle('is-active', (series ?? 'all') === value);
+		});
+
+		filterBar.querySelectorAll<HTMLAnchorElement>('a[data-filter-year]').forEach((link) => {
+			const value = link.dataset.filterYear ?? 'all';
+			link.classList.toggle('is-active', value === 'all' ? !year : year === value);
+		});
+	}
+
+	function applyFilters() {
+		const { series, year } = parseFilters();
+		const grid = document.querySelector('[data-work-grid]');
+		const empty = document.querySelector<HTMLElement>('[data-work-empty]');
+		const items = grid?.querySelectorAll<HTMLElement>('[data-series]') ?? [];
+
+		let visible = 0;
+		for (const item of items) {
+			const itemSeries = item.dataset.series;
+			const itemYear = item.dataset.year;
+			const show =
+				(!series || itemSeries === series) && (!year || itemYear === year);
+			item.hidden = !show;
+			if (show) visible += 1;
+		}
+
+		if (empty) empty.hidden = visible > 0;
+
+		syncFilterHrefs(series, year);
+		updateActiveStates(series, year);
+	}
+
+	applyFilters();
+	window.addEventListener('popstate', applyFilters);
+</script>
 
 <style>
 	.work-header {

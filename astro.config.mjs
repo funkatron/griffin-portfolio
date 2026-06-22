@@ -5,5 +5,7 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [mdx()]
+  // Override at build time: SITE_URL=https://your.domain npm run build
+  site: process.env.SITE_URL ?? 'https://funkatron.github.io/griffin-portfolio',
+  integrations: [mdx()],
 });

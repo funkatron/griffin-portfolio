@@ -10,12 +10,14 @@ const { pieces } = Astro.props;
 const crops = ['center', '20% 30%', '70% 20%', 'center top', 'left center', '80% 60%'];
 ---
 
-<div class="asymmetric-grid">
+<div class="asymmetric-grid" data-work-grid>
 	{
 		pieces.map((piece, index) => (
 			<a
 				href={`/work/${piece.id}`}
 				class:list={['grid-item', { 'grid-item--series-ad': piece.data.series === 'astronaut-dreams' }]}
+				data-series={piece.data.series}
+				data-year={String(piece.data.year)}
 			>
 				<OptimizedImage
 					src={piece.data.hero}
@@ -65,6 +67,10 @@ const crops = ['center', '20% 30%', '70% 20%', 'center top', 'left center', '80%
 	.grid-item__series {
 		display: block;
 		margin-top: 0.25rem;
+	}
+
+	.grid-item[hidden] {
+		display: none !important;
 	}
 
 	.grid-item--series-ad::after {

@@ -12,7 +12,10 @@
     "astro": "astro",
     "generate:placeholders": "node scripts/generate-placeholders.mjs",
     "seed:content": "node scripts/seed-content.mjs",
-    "apply:assets": "node scripts/apply-real-assets.mjs"
+    "sync:content": "node scripts/sync-content.mjs",
+    "sync:content:sources": "node scripts/sync-content.mjs --from-sources",
+    "validate:content": "node scripts/validate-content.mjs",
+    "prebuild": "npm run validate:content"
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.3",

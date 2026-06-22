@@ -15,9 +15,12 @@ export async function getFeaturedPieces(): Promise<Piece[]> {
 	return (await getAllPieces()).filter((piece) => piece.data.featured);
 }
 
-export async function getPieceBySlug(slug: string): Promise<Piece | undefined> {
-	return (await getAllPieces()).find((piece) => piece.id === slug);
+export async function getPieceById(id: string): Promise<Piece | undefined> {
+	return (await getAllPieces()).find((piece) => piece.id === id);
 }
+
+/** @deprecated Use getPieceById — Astro 6 content entries use `id`, not `slug`. */
+export const getPieceBySlug = getPieceById;
 
 export async function getPiecesBySeries(
 	series: Piece['data']['series'],
