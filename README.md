@@ -4,6 +4,17 @@ Static editorial portfolio for 3D rendered stills. Built with Astro 6 and MDX �
 
 Deeper docs: [Developer guide](docs/DEVELOPMENT.md) (how to change content, assets, and theme) · [v1 handoff](docs/delivery/portfolio-v1-handoff.md) (what shipped, open items, verification).
 
+## How this site was built
+
+If you want to see **how v1 was planned and built** (brainstorm → scope → implementation), start here:
+
+| What | Where |
+|------|--------|
+| **Task plan** — routes, acceptance criteria, stack choices, what was in/out of scope | [.cursor/plans/griffin_portfolio_v1_34fee3c5.plan.md](.cursor/plans/griffin_portfolio_v1_34fee3c5.plan.md) |
+| **Session transcript** — full Cursor chat that implemented the plan (decisions, fixes, deploy notes) | [.cursor/transcripts/portfolio-v1-session-09eb1208.md](.cursor/transcripts/portfolio-v1-session-09eb1208.md) |
+
+Those two files are the paper trail for this repo. The [developer guide](docs/DEVELOPMENT.md) is the ongoing how-to; the plan and transcript are the build story.
+
 ## Requirements
 
 - Node.js ≥ 22.12.0 (see `.nvmrc`)
@@ -48,6 +59,7 @@ Preview serves the built site from `dist/` (default http://localhost:4321).
 | Change colors / fonts (Kanagawa Dragon) | [Theme](docs/DEVELOPMENT.md#theme-kanagawa-dragon) |
 | Understand routes and folders | [Project layout](docs/DEVELOPMENT.md#project-layout) |
 | See what v1 includes and what is deferred | [Handoff doc](docs/delivery/portfolio-v1-handoff.md) |
+| See how v1 was planned and built | [Plan](.cursor/plans/griffin_portfolio_v1_34fee3c5.plan.md) · [Session transcript](.cursor/transcripts/portfolio-v1-session-09eb1208.md) |
 | Fix build or content errors | [Troubleshooting](docs/DEVELOPMENT.md#troubleshooting) |
 | Deploy to production | [Deploy](docs/DEVELOPMENT.md#deploy) below · full guide in dev doc |
 
