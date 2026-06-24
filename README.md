@@ -22,7 +22,25 @@ Those two files are the paper trail for this repo. The [developer guide](docs/DE
 - Node.js ≥ 24.0.0 (Active LTS — see `.nvmrc`)
 - npm 10+
 
-If you use `nvm`, run `nvm use` before install. Otherwise install Node 24 manually (fnm, volta, or nodejs.org) and confirm with `node -v`.
+### Node via nvm (recommended)
+
+This repo pins Node in `.nvmrc`. If you don't have [nvm](https://github.com/nvm-sh/nvm) yet:
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+```
+
+Restart your terminal (or run `source ~/.nvm/nvm.sh`), then from the repo root:
+
+```bash
+nvm install   # reads .nvmrc and installs Node 24 if needed
+nvm use
+node -v       # should show v24.x
+```
+
+Full install notes and alternatives: [Developer guide — Install nvm](docs/DEVELOPMENT.md#install-nvm).
+
+**Without nvm:** install Node 24 from [nodejs.org](https://nodejs.org/) or use [fnm](https://github.com/Schniz/fnm) / [Volta](https://volta.sh/) and confirm with `node -v`.
 
 ## Quickstart
 

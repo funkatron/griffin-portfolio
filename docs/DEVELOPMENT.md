@@ -6,6 +6,46 @@ New here? Start with [README.md](../README.md) quickstart, then come back to thi
 
 ---
 
+## Install nvm
+
+The repo expects **Node 24** (`.nvmrc`). [nvm](https://github.com/nvm-sh/nvm) is the easiest way to match that version on macOS and Linux.
+
+### One-time install
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+```
+
+Close and reopen your terminal, or load nvm in the current shell:
+
+```bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+```
+
+Install script and other methods: [nvm — Installing and updating](https://github.com/nvm-sh/nvm#installing-and-updating).
+
+### Per project (this repo)
+
+From the repo root:
+
+```bash
+nvm install   # installs the version in .nvmrc if missing
+nvm use       # switches to it for this shell
+node -v       # expect v24.x
+npm -v
+```
+
+Run `nvm use` (or `nvm install`) before `npm install`, `npm run dev`, or `npm run build`.
+
+### Alternatives
+
+- **[fnm](https://github.com/Schniz/fnm)** — `fnm use` reads `.nvmrc`
+- **[Volta](https://volta.sh/)** — pin Node in `package.json` if you prefer
+- **[nodejs.org](https://nodejs.org/)** — download the **24.x LTS** installer
+
+---
+
 ## Production smoke
 
 After content or layout changes:
@@ -28,6 +68,7 @@ npm run preview  # serves dist/ at http://localhost:4321
 | Adjust Kanagawa Dragon colors/fonts | [Theme](#theme-kanagawa-dragon) |
 | Fix “build failed” on content | [Content schema](#content-schema) |
 | Regenerate placeholder SVGs | [Scripts](#scripts) |
+| Install Node / nvm | [Install nvm](#install-nvm) |
 
 ---
 
