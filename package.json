@@ -15,6 +15,7 @@
     "sync:content": "node scripts/sync-content.mjs",
     "sync:content:sources": "node scripts/sync-content.mjs --from-sources",
     "validate:content": "node scripts/validate-content.mjs",
+    "crawl:site": "node scripts/crawl-site.mjs",
     "prebuild": "npm run validate:content"
   },
   "dependencies": {
