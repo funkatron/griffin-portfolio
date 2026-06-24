@@ -336,9 +336,8 @@ Two common setups:
 **A. Project site** (`https://<user>.github.io/<repo>/`) — use for this repo:
 
 1. Repo **Settings** → **Pages** → Source: **GitHub Actions**.
-2. Workflow: `.github/workflows/deploy-pages.yml` — **manual only** (`workflow_dispatch`). It does **not** run on push to `main`.
-3. When ready to publish: **Actions** → **Deploy to GitHub Pages** → **Run workflow**.
-4. Site URL after deploy: `https://funkatron.github.io/griffin-portfolio/`
+2. Workflow: `.github/workflows/deploy-pages.yml` — runs on **push to `main`** (and via **Run workflow** in Actions).
+3. Site URL: `https://funkatron.github.io/griffin-portfolio/`
 
 **B. User/org site or custom domain at root** — site lives at `https://example.com/`:
 
