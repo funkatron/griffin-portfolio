@@ -8,8 +8,8 @@ Internal delivery note for the next developer, reviewer, or future you. User-fac
 
 - Shipped a static Astro 6 + MDX portfolio: editorial layout, Kanagawa Dragon theme, flagship Astronaut Dreams exhibition (12 works).
 - Image inventory: 12 series JPGs + 2 other featured JPGs + 1 home splash (15 files under `public/`); 13 grid slots still SVG placeholders.
-- Local dev default; **deploy docs + GitHub Actions workflow** in repo. `npm run build` → `dist/` (32 pages).
-- **Repo:** https://github.com/funkatron/griffin-portfolio · **PR:** https://github.com/funkatron/griffin-portfolio/pull/1 · **Branch:** `feature/portfolio-v1-astro`
+- **Live:** https://funkatron.github.io/griffin-portfolio/ — GitHub Pages, auto-deploy on push to `main`.
+- **Repo:** https://github.com/funkatron/griffin-portfolio · **PR #1** merged · **Branch:** `main`
 
 ---
 
@@ -23,6 +23,8 @@ Internal delivery note for the next developer, reviewer, or future you. User-fac
 | Theme | Kanagawa Dragon (`src/styles/kanagawa.css`) |
 | Default dev URL | http://localhost:4321 |
 | Build output | `dist/` |
+| Production URL | https://funkatron.github.io/griffin-portfolio/ |
+| Deploy | Push to `main` → GitHub Actions → Pages |
 
 ---
 
@@ -99,6 +101,7 @@ nvm use && npm install && npm run dev
 3. `/work` — 27 items; filter `?series=astronaut-dreams`.
 4. `/work/astronaut-dreams-01` — credits overlay; arrow keys change piece in series.
 5. `npm run build` — exit 0, 32 pages in `dist/`.
+6. **Production** — https://funkatron.github.io/griffin-portfolio/ loads splash + work images (requires `BASE_PATH` + `pathWithBase` in `OptimizedImage`).
 
 ---
 
@@ -138,7 +141,8 @@ Key query helpers: `src/utils/pieces.ts` (`getFeaturedPieces`, `filterPieces`, `
 | Placeholders + real series | Credible grid (27 entries) while assets are curated incrementally |
 | Kanagawa Dragon | Dark cinematic frame for 3D work; muted contrast for long browsing |
 | `id` not `slug` in Astro 6 | Content layer uses filename as `id`; route is `/work/[id]` |
-| Local-only v1 | Layout and content sign-off before picking host/CDN |
+| Local-first, then Pages | Layout signed off locally; shipped on GitHub Pages project subpath |
+| Subpath asset URLs | `pathWithBase()` on nav links and `OptimizedImage` src for `/griffin-portfolio/` |
 
 ---
 
@@ -146,7 +150,7 @@ Key query helpers: `src/utils/pieces.ts` (`getFeaturedPieces`, `filterPieces`, `
 
 1. Replace 13 placeholder `other-*` grid heroes with real renders ([Replace images](../DEVELOPMENT.md#replace-images)).
 2. Finalize About/Contact copy (name, email, social URLs — currently placeholders).
-3. Deploy — [Deploy guide](../DEVELOPMENT.md#deploy); pushes to `main` auto-publish via `.github/workflows/deploy-pages.yml`.
+3. Optional: custom domain (update `SITE_URL` in workflow + rebuild).
 4. Optional: add `sharp` as devDependency for CI; Pagefind search; Playwright smoke tests.
 
 ---
@@ -164,10 +168,11 @@ Key query helpers: `src/utils/pieces.ts` (`getFeaturedPieces`, `filterPieces`, `
 
 ---
 
-## Git state (as of handoff)
+## Git state (as of 2026-06-24)
 
-- Default branch on remote: `main` (empty root commit)
-- Feature branch: `feature/portfolio-v1-astro` — contains full site
-- Merge via [PR #1](https://github.com/funkatron/griffin-portfolio/pull/1)
+- Default branch: `main` (production)
+- [PR #1](https://github.com/funkatron/griffin-portfolio/pull/1) merged
+- Deploy workflow: `.github/workflows/deploy-pages.yml` — push to `main` publishes to Pages
+- Latest notable commits: asset path fix (`OptimizedImage` + `BASE_PATH`), Node 24, auto-deploy re-enabled
 
-After merge, delete or update this handoff when v2 scope is defined.
+After v2 scope is defined, update or archive this handoff.

@@ -8,3 +8,5 @@ Most Cursor workspace state stays local. **Only these folders are tracked in git
 | `.cursor/transcripts/` | Exported agent session transcripts (Markdown) |
 
 Everything else under `.cursor/` is gitignored.
+
+The transcript for v1 includes the full build arc through GitHub Pages deploy and post-launch fixes. Re-export from the Cursor JSONL when the session continues.

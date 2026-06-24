@@ -2,6 +2,8 @@
 
 Static editorial portfolio for 3D rendered stills. Built with Astro 6 and MDX — exhibition-style pages, file-based content, no CMS in v1.
 
+**Live site:** https://funkatron.github.io/griffin-portfolio/ (GitHub Pages — auto-deploy on push to `main`)
+
 Deeper docs: [Developer guide](docs/DEVELOPMENT.md) (how to change content, assets, and theme) · [v1 handoff](docs/delivery/portfolio-v1-handoff.md) (what shipped, open items, verification).
 
 ## How this site was built
@@ -64,6 +66,8 @@ Preview serves the built site from `dist/` (default http://localhost:4321).
 | Deploy to production | [Deploy](docs/DEVELOPMENT.md#deploy) below · full guide in dev doc |
 
 ## Deploy
+
+**Production:** https://funkatron.github.io/griffin-portfolio/ — published by `.github/workflows/deploy-pages.yml` on every push to `main`.
 
 Static site — build locally or in CI, upload `dist/` to any static host.
 

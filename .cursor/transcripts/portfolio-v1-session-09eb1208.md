@@ -3,12 +3,13 @@
 | Field | Value |
 |-------|-------|
 | Session ID | `09eb1208-d398-4e44-b0be-7ce4997af205` |
-| Exported | 2026-06-22 (updated after merge + Node 24 bump) |
+| Exported | 2026-06-24 |
 | Source | Cursor agent transcript (JSONL → Markdown) |
 | PR | https://github.com/funkatron/griffin-portfolio/pull/1 (merged) |
-| Messages | 207 |
+| Live site | https://funkatron.github.io/griffin-portfolio/ |
+| Messages | 251 |
 
-Covers: v1 build, review fixes, deploy docs, Cursor plan/transcript tracking, manual Pages workflow, README pointers, Node 24 LTS upgrade.
+Covers: v1 build, review fixes, Node 24, GitHub Pages deploy, asset path fix (`pathWithBase` in OptimizedImage), auto-deploy on push to `main`.
 
 Tool calls are summarized inline; full tool payloads live in the JSONL source.
 
@@ -3510,5 +3511,505 @@ Upgrading the project to Node 24 and running smoke tests.
 > *[Read invoked]*
 
 > *[Read invoked]*
+
+---
+
+## Assistant (208)
+
+[REDACTED]
+
+> *[Write invoked]*
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+> *[Grep invoked]*
+
+---
+
+## Assistant (209)
+
+[REDACTED]
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+> *[Grep invoked]*
+
+---
+
+## Assistant (210)
+
+[REDACTED]
+
+> *[Read invoked]*
+
+> *[Read invoked]*
+
+---
+
+## Assistant (211)
+
+[REDACTED]
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (212)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (213)
+
+[REDACTED]
+
+> *[Await invoked]*
+
+---
+
+## Assistant (214)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (215)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (216)
+
+[REDACTED]
+
+> *[Grep invoked]*
+
+---
+
+## Assistant (217)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (218)
+
+Upgraded to **Node 24** (Active LTS) and smoke tests passed.
+
+### Changes
+- `.nvmrc` → `24`
+- `package.json` / `package-lock.json` → `"node": ">=24.0.0"`
+- Docs updated: `README.md`, `docs/DEVELOPMENT.md`, handoff
+
+### Smoke test (Node **v24.17.0**, npm **11.13.0**)
+
+| Check | Result |
+|-------|--------|
+| `npm run validate:content` | Pass |
+| `npm run build` | Pass — **32** pages |
+| All key routes | **200** |
+| Home splash, 12 exhibition labels | OK |
+| Client filters, JSON-LD | OK |
+
+Local: `nvm use` → Node 24.17.0.
+
+Changes are **uncommitted** — say if you want them pushed to `main`.
+
+[REDACTED]
+
+---
+
+## User (219)
+
+<user_query>
+if all is good, update the chat transascript, commit and push
+</user_query>
+
+---
+
+## Assistant (220)
+
+Re-exporting the chat transcript with the latest session, then committing and pushing all changes.
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (221)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (222)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (223)
+
+All set — pushed to `main` as **`f8c05a3`**.
+
+### In this commit
+- **Node 24 LTS** — `.nvmrc`, `package.json`, `package-lock.json`, README, dev docs, handoff
+- **Session transcript** — re-exported to `.cursor/transcripts/portfolio-v1-session-09eb1208.md` (**207** messages, ~92 KB), including post-merge work: deploy workflow, README plan/transcript links, Node 24 upgrade, smoke tests
+
+### Verified before push
+- `validate:content` + `build` (32 pages) on **v24.17.0**
+- Preview smoke: all routes 200, splash, exhibition, filters, JSON-LD
+
+No deploy workflow run (still manual-only).
+
+[REDACTED]
+
+---
+
+## Assistant (224)
+
+---
+
+## User (225)
+
+<user_query>
+is it ready for m to invite griff?
+</user_query>
+
+---
+
+## Assistant (226)
+
+Checking the repo’s current state for a Griffin handoff.
+
+[REDACTED]
+
+> *[Read invoked]*
+
+> *[Read invoked]*
+
+> *[Read invoked]*
+
+> *[Read invoked]*
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (227)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (228)
+
+**Yes — for a repo invite and local review.** **Not yet — if you mean “here’s your live portfolio.”**
+
+### Ready now (good time to invite Griff)
+
+| Area | Status |
+|------|--------|
+| **Code & docs** | Merged on `main`; README with quickstart, plan, full chat transcript, dev guide |
+| **Core experience** | Home, Astronaut Dreams (12 real JPGs), project pages, work grid, theme |
+| **Local run** | `nvm use && npm install && npm run dev` — Node 24, build/smoke verified |
+| **How it was built** | `.cursor/plans/…` + `.cursor/transcripts/…` linked from README |
+
+Griff can clone, run it, browse the exhibition, and follow the docs to swap images or edit copy.
+
+### Not ready / set expectations
+
+| Gap | Notes |
+|-----|--------|
+| **No live URL** | GitHub Pages isn’t enabled; deploy workflow is **manual-only** and never succeeded |
+| **13 grid slots** | Still SVG placeholders on `/work` |
+| **About / Contact** | Placeholder bio tone is fine; **`hello@griffin.studio`**, Instagram/ArtStation URLs are fake — Griff should replace |
+| **Default branch** | GitHub still shows `feature/portfolio-v1-astro` as default; **`main`** has the real code — worth switching before invite so clone links aren’t confusing |
+
+### Suggested invite message (short)
+
+> Repo’s ready to run locally — README + plan + transcript explain how v1 was built. Astronaut Dreams is fully wired; `/work` still has placeholder tiles. No public site yet; we’ll deploy when you’re happy with copy and images.
+
+### Optional 5‑minute prep before inviting
+
+1. GitHub **Settings → General → Default branch → `main`**
+2. Add Griff as collaborator (or org access)
+3. Decide: invite **now for feedback**, or run deploy once after he fixes contact/socials
+
+**Bottom line:** Invite him **to the repo and a local preview** — that’s in good shape. Hold the “your site is live” invite until Pages (or another host) is deployed and contact/socials are real.
+
+[REDACTED]
+
+---
+
+## Assistant (229)
+
+---
+
+## User (230)
+
+<user_query>
+let's try to deploy
+</user_query>
+
+---
+
+## Assistant (231)
+
+Checking repo and Pages setup, then triggering a deploy.
+
+[REDACTED]
+
+> *[Read invoked]*
+
+> *[Shell invoked]*
+
+> *[Read invoked]*
+
+---
+
+## Assistant (232)
+
+Pages is enabled. Triggering the deploy workflow and monitoring it.
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (233)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (234)
+
+Deploy succeeded. Verifying the live site:
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (235)
+
+**Deployed and live.**
+
+### Live site
+**https://funkatron.github.io/griffin-portfolio/**
+
+### Deploy run
+- Workflow: [Deploy to GitHub Pages #27970338074](https://github.com/funkatron/griffin-portfolio/actions/runs/27970338074)
+- **Build:** passed (Node 24 from `.nvmrc`, `SITE_URL` + `BASE_PATH` set)
+- **Deploy:** passed
+
+### Live smoke test
+| Check | Result |
+|-------|--------|
+| `/`, `/astronaut-dreams/`, `/work/`, `/work/astronaut-dreams-01/`, `/about/` | **200** |
+| Splash hero | OK |
+| Subpath links (`/griffin-portfolio/work`) | OK |
+| Work grid filters | OK |
+
+### Redeploy later
+**Actions → Deploy to GitHub Pages → Run workflow** (manual only — pushes to `main` do not auto-deploy).
+
+Good time to invite Griff with that URL. He’ll still see placeholder grid tiles and placeholder contact/socials — worth mentioning upfront.
+
+[REDACTED]
+
+---
+
+## Assistant (236)
+
+---
+
+## User (237)
+
+<user_query>Briefly inform the user about the task result and perform any follow-up actions (if needed). If there's no follow-ups needed, don't explicitly say that.</user_query>
+
+---
+
+## Assistant (238)
+
+The local preview server on port 4323 was stopped — that was only for the Node 24 smoke test before deploy.
+
+The site is live at **https://funkatron.github.io/griffin-portfolio/** and passed the live checks. To preview locally again: `nvm use && npm run dev`. To publish updates: **Actions → Deploy to GitHub Pages → Run workflow**.
+
+[REDACTED]
+
+---
+
+## Assistant (239)
+
+---
+
+## User (240)
+
+<user_query>
+assets not loading
+</user_query>
+
+---
+
+## Assistant (241)
+
+Investigating asset URLs on the live deploy — likely a base-path issue on GitHub Pages.
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+> *[Read invoked]*
+
+> *[Grep invoked]*
+
+---
+
+## Assistant (242)
+
+Root cause: image `src` paths ignore `BASE_PATH` on GitHub Pages. Fixing at `OptimizedImage` and other asset entry points.
+
+[REDACTED]
+
+> *[Grep invoked]*
+
+> *[Read invoked]*
+
+> *[Read invoked]*
+
+---
+
+## Assistant (243)
+
+[REDACTED]
+
+> *[Grep invoked]*
+
+> *[StrReplace invoked]*
+
+> *[StrReplace invoked]*
+
+---
+
+## Assistant (244)
+
+[REDACTED]
+
+> *[Read invoked]*
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (245)
+
+Fix verified in build. Committing, pushing, and redeploying.
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (246)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (247)
+
+[REDACTED]
+
+> *[Shell invoked]*
+
+---
+
+## Assistant (248)
+
+**Cause:** Nav links used `pathWithBase`, but image `src` values did not — on GitHub Pages they pointed at `/images/...` instead of `/griffin-portfolio/images/...`.
+
+**Fix:** `OptimizedImage` now runs all local paths through `pathWithBase` (covers splash, works, placeholders, process strips).
+
+**Shipped:** `de02c69` deployed — live checks pass:
+- https://funkatron.github.io/griffin-portfolio/images/splash.jpg → **200**
+- https://funkatron.github.io/griffin-portfolio/works/anotherastronaught.jpg → **200**
+
+Hard-refresh the site if you still see broken images (cached HTML).
+
+[REDACTED]
+
+---
+
+## Assistant (249)
+
+---
+
+## User (250)
+
+<user_query>
+good.
+
+Update so a push to main builds to gh pages
+</user_query>
+
+---
+
+## Assistant (251)
+
+[REDACTED]
+
+> *[Read invoked]*
+
+> *[Grep invoked]*
 
 ---

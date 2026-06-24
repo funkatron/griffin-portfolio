@@ -234,7 +234,20 @@ Fonts load from Google Fonts at runtime (`BaseLayout.astro`). Offline dev requir
 
 ## Deploy
 
-The site is a **static export** — no server runtime, database, or secrets. Any host that serves files from a folder works.
+The site is a **static export** — no server runtime, database, or secrets.
+
+**Production (this repo):** https://funkatron.github.io/griffin-portfolio/
+
+Pushes to `main` run `.github/workflows/deploy-pages.yml` (build with `SITE_URL` + `BASE_PATH`, deploy to GitHub Pages). You can also re-run the workflow manually from Actions.
+
+### GitHub Pages subpath note
+
+When `BASE_PATH=/griffin-portfolio` is set at build time:
+
+- Nav links use `pathWithBase()` (`src/utils/paths.ts`).
+- Image `src` values go through `pathWithBase()` inside `OptimizedImage.astro` — required so `/works/` and `/images/` resolve under the repo subpath.
+
+Any host that serves files from a folder works for other deploy targets.
 
 ### Quick reference
 
