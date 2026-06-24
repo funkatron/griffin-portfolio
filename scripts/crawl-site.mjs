@@ -19,10 +19,12 @@ function normalizePageUrl(href, pageUrl) {
 	try {
 		const u = new URL(href, pageUrl);
 		if (u.origin !== ORIGIN) return null;
+		if (isAssetPath(u.pathname)) return null;
 		const path = u.pathname.replace(/\/$/, '') || '/';
 		const baseNorm = BASE || '';
 		if (baseNorm && path !== baseNorm && !path.startsWith(`${baseNorm}/`)) return null;
-		return u.origin + u.pathname + (u.pathname.endsWith('/') ? '' : '/');
+		const withSlash = u.pathname.endsWith('/') ? u.pathname : `${u.pathname}/`;
+		return u.origin + withSlash;
 	} catch {
 		return null;
 	}
