@@ -1,4 +1,6 @@
 ---
+import { pathWithBase } from '../../utils/paths';
+
 interface Props {
 	src: string;
 	alt: string;
@@ -21,10 +23,12 @@ const classes = ['optimized-image', `optimized-image--${variant}`, className]
 	.filter(Boolean)
 	.join(' ');
 const style = `object-position: ${objectPosition}`;
+const resolvedSrc =
+	src.startsWith('http://') || src.startsWith('https://') ? src : pathWithBase(src);
 ---
 
 <img
-	src={src}
+	src={resolvedSrc}
 	alt={alt}
 	loading={loading}
 	class={classes}
